@@ -1,6 +1,8 @@
 package com.seven9nrh.gachajava.domain.model;
 
-public class ItemData {
+import java.io.Serializable;
+
+public class ItemData implements Serializable {
 
   private final String name;
   private final String description;

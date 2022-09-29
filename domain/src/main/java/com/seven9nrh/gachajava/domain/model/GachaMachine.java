@@ -1,9 +1,10 @@
 package com.seven9nrh.gachajava.domain.model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class GachaMachine {
+public class GachaMachine implements Serializable {
 
   private final Identifier id;
   private final String name;

@@ -1,6 +1,8 @@
 package com.seven9nrh.gachajava.domain.model;
 
-public class Identifier {
+import java.io.Serializable;
+
+public class Identifier implements Serializable {
 
   private final String id;
 

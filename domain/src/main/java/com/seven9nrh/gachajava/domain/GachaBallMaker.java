@@ -56,7 +56,7 @@ public class GachaBallMaker {
       var weight = gachaTableSet
         .stream()
         .filter(g -> g.getRarity() == rarity)
-        .mapToLong(g -> g.getWeight())
+        .mapToLong(GachaTable::getWeight)
         .sum();
       var maxConunt = (int) (weight * percentage);
       for (int i = 0; i < maxConunt; i++) {
