@@ -3,7 +3,6 @@ package com.seven9nrh.gachajava.domain;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-import com.seven9nrh.gachajava.domain.model.GachaItemCategory;
 import com.seven9nrh.gachajava.domain.model.ItemData;
 import com.seven9nrh.gachajava.domain.model.Rarity;
 import com.seven9nrh.gachajava.repository.ItemDataRepository;
@@ -17,7 +16,7 @@ import org.mockito.MockitoAnnotations;
 public class ItemManagerTest {
 
   @InjectMocks
-  ItemManager itemManager;
+  ItemDataManager itemManager;
 
   @Mock
   ItemDataRepository itemDataRepository;
@@ -30,15 +29,14 @@ public class ItemManagerTest {
   @Test
   void testGetItemData() {
     // given
-    GachaItemCategory category = new GachaItemCategory("cate1", "description");
 
     int expected = 1;
 
     // when
-    when(itemDataRepository.getItemData(category))
+    when(itemDataRepository.getAllItemData())
       .thenReturn(Set.of(new ItemData("item1", "description", Rarity.R)));
 
-    Set<ItemData> actual = itemManager.getItemData(category);
+    Set<ItemData> actual = itemManager.getAllItemData();
 
     // then
     assertEquals(expected, actual.size());

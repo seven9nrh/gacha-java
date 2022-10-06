@@ -1,9 +1,11 @@
 package com.seven9nrh.gachajava.domain;
 
-import com.seven9nrh.gachajava.domain.model.GachaItemCategory;
 import com.seven9nrh.gachajava.domain.model.GachaMachine;
+import com.seven9nrh.gachajava.domain.model.Identifier;
 import com.seven9nrh.gachajava.repository.GachaMachineRepository;
+import org.springframework.stereotype.Component;
 
+@Component
 public class GachaMachineManager {
 
   private final GachaMachineRepository repository;
@@ -24,41 +26,45 @@ public class GachaMachineManager {
   }
 
   // Delete a gacha machine.
-  public void deleteGachaMachine(String id) {
+  public void deleteGachaMachine(Identifier id) {
     repository.delete(id);
   }
 
-  // refill Gatya balls.
-  public void refillGachaBalls(String id, int qty, GachaItemCategory category) {
+  public GachaMachine refillGachaBalls(Identifier id, int qty) {
     // get gacha machine.
-    GachaMachine gachaMachine = getGachaMachine(id);
+    GachaMachine gachaMachine = repository.getGachaMachine(id);
 
-    // get current stock.
-    int currentStock = gachaMachine.getCurrentStock();
-
-    // get max stock.
-    int maxStock = gachaMachine.getMaxStock();
-
-    // check if current stock + amount is less than max stock.
-    if (currentStock + qty > maxStock) {
-      // throw exception.
-      throw new IllegalArgumentException("Stock is full.");
-    }
-
-    // create gacha balls.
-    for (int i = 0; i < qty; i++) {
-      // add gacha ball to gacha machine.
-      gachaMachine.addGachaBall(gachaBallMaker.makeBalls(category, qty));
-    }
-
-    // set current stock.
-    gachaMachine.setCurrentStock(currentStock + qty);
+    // add gacha ball to gacha machine.
+    gachaMachine.addGachaBall(gachaBallMaker.makeBalls(qty));
 
     // save gacha machine.
     saveGachaMachine(gachaMachine);
+
+    return gachaMachine;
   }
 
-  private GachaMachine getGachaMachine(String id) {
-    return repository.findById(id);
+  public GachaMachine newGachaMachine(
+    String name,
+    String description,
+    int price,
+    int maxStock
+  ) {
+    // create gacha machine.
+    GachaMachine gachaMachine = new GachaMachine(
+      name,
+      description,
+      price,
+      maxStock
+    );
+
+    // save gacha machine.
+    saveGachaMachine(gachaMachine);
+
+    // return gacha machine.
+    return gachaMachine;
+  }
+
+  public GachaMachine getGachaMachine(Identifier id) {
+    return repository.getGachaMachine(id);
   }
 }

@@ -33,6 +33,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.seven9nrh.gachajava</groupId>
+			<artifactId>domain</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
@@ -44,9 +50,10 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.seven9nrh.gachajava</groupId>
-			<artifactId>domain</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.24</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 

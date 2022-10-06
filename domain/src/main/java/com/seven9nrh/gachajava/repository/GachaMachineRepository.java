@@ -1,11 +1,12 @@
 package com.seven9nrh.gachajava.repository;
 
 import com.seven9nrh.gachajava.domain.model.GachaMachine;
+import com.seven9nrh.gachajava.domain.model.Identifier;
 
 public interface GachaMachineRepository {
   void save(GachaMachine gachaMachine);
 
-  void delete(String id);
+  void delete(Identifier id);
 
-  GachaMachine findById(String id);
+  GachaMachine getGachaMachine(Identifier id);
 }

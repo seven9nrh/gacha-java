@@ -16,8 +16,8 @@
 		<java.version>17</java.version>
 	</properties>
 	<modules>
-		<module>api-server</module>
 		<module>domain</module>
 		<module>database</module>
+		<module>application</module>
 	</modules>
 </project>

@@ -4,7 +4,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.seven9nrh.gachajava.domain.model.GachaItem;
-import com.seven9nrh.gachajava.domain.model.GachaItemCategory;
 import com.seven9nrh.gachajava.domain.model.GachaMachine;
 import com.seven9nrh.gachajava.domain.model.Identifier;
 import com.seven9nrh.gachajava.domain.model.Rarity;
@@ -36,7 +35,7 @@ public class GachaMachineManagerTest {
   @Test
   void testDeleteGachaMachine() {
     // given
-    String id = "id";
+    Identifier id = new Identifier("id");
 
     // when
     gachaMachineManager.deleteGachaMachine(id);
@@ -48,9 +47,8 @@ public class GachaMachineManagerTest {
   @Test
   void testRefillGachaBalls() {
     // given
-    String id = "id";
+    Identifier id = new Identifier("id");
     int qty = 10;
-    GachaItemCategory category = new GachaItemCategory("cate1", "description");
 
     int price = 100;
     int maxStock = 50;
@@ -59,29 +57,27 @@ public class GachaMachineManagerTest {
     String description = "description";
 
     // when
-    when(gachaMachineRepository.findById(id))
-      .thenReturn(
-        new GachaMachine(new Identifier(id), name, description, price, maxStock)
-      );
+    when(gachaMachineRepository.getGachaMachine(id))
+      .thenReturn(new GachaMachine(id, name, description, price, maxStock));
 
     Set balls = new HashSet<>();
-    balls.add(new GachaItem(name, description, Rarity.N, category));
-    balls.add(new GachaItem(name, description, Rarity.N, category));
-    balls.add(new GachaItem(name, description, Rarity.N, category));
-    balls.add(new GachaItem(name, description, Rarity.N, category));
-    balls.add(new GachaItem(name, description, Rarity.N, category));
-    when(gachaBallMaker.makeBalls(category, 5)).thenReturn(balls);
+    balls.add(new GachaItem(name, description, Rarity.N));
+    balls.add(new GachaItem(name, description, Rarity.N));
+    balls.add(new GachaItem(name, description, Rarity.N));
+    balls.add(new GachaItem(name, description, Rarity.N));
+    balls.add(new GachaItem(name, description, Rarity.N));
+    when(gachaBallMaker.makeBalls(5)).thenReturn(balls);
 
-    gachaMachineManager.refillGachaBalls(id, qty, category);
+    gachaMachineManager.refillGachaBalls(id, qty);
     // then
-    // verify(gachaBallMaker).makeGachaBalls(id);
+
   }
 
   @Test
   void testSaveGachaMachine() {
     // given
     GachaMachine gachaMachine = new GachaMachine(
-      new Identifier(),
+      Identifier.generate(),
       "name",
       "description",
       1,

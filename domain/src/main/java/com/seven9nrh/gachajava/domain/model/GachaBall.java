@@ -2,25 +2,24 @@ package com.seven9nrh.gachajava.domain.model;
 
 import com.seven9nrh.gachajava.domain.GachaBallAlreadyOpenedException;
 import java.io.Serializable;
+import lombok.Getter;
 
+@Getter
 public class GachaBall implements Serializable {
 
-  private final Identifier id;
+  private Identifier id;
+
   private GachaItem item;
 
   private boolean isOpenned;
 
   public GachaBall(GachaItem item) {
-    this.id = new Identifier();
+    this.id = Identifier.generate();
     this.item = item;
     this.isOpenned = false;
   }
 
-  public Identifier getIdentifier() {
-    return id;
-  }
-
-  public GachaItem getItem() {
+  public GachaItem takeOutItem() {
     if (this.isOpenned) {
       throw new GachaBallAlreadyOpenedException(
         "Gacha ball is already opened."
@@ -31,11 +30,7 @@ public class GachaBall implements Serializable {
     }
   }
 
-  public boolean isOpenned() {
-    return isOpenned;
-  }
-
-  public void setItem(GachaItem item) {
+  public void setNewItem(GachaItem item) {
     if (this.isOpenned) {
       this.item = item;
       this.isOpenned = false;
