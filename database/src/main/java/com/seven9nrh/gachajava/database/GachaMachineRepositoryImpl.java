@@ -59,18 +59,21 @@ public class GachaMachineRepositoryImpl implements GachaMachineRepository {
     );
 
     var condition = new GachaBallEntity();
-    condition.setGachaItemId(entity.getId());
-    var gachaBallList = gachaBallDao.findAll(Example.of(condition));
-    Set<GachaBall> gbList = gachaBallList
+    condition.setGachaMachineId(entity.getId());
+    var gachaBallEntities = gachaBallDao.findAll(Example.of(condition));
+    Set<GachaBall> gachaBalls = gachaBallEntities
       .stream()
       .map(
-        entityGb -> {
-          return new GachaBall(getGachaItem(entityGb));
+        gachaBallEntity -> {
+          return new GachaBall(
+            getGachaItem(gachaBallEntity),
+            gachaMachine.getId()
+          );
         }
       )
       .collect(Collectors.toSet());
 
-    gachaMachine.addGachaBall(gbList);
+    gachaMachine.addGachaBall(gachaBalls);
     return gachaMachine;
   }
 

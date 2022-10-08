@@ -17,7 +17,6 @@
 
     create table gacha_item (
        id varchar(255) not null,
-        gacha_item_category varchar(255),
         gacha_item_description varchar(255),
         gacha_item_name varchar(255),
         gacha_item_rarity varchar(255),

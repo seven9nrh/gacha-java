@@ -2,6 +2,7 @@ package com.seven9nrh.gachajava.application.service;
 
 import com.seven9nrh.gachajava.application.api.body.GachaMachineBody;
 import com.seven9nrh.gachajava.domain.GachaMachineManager;
+import com.seven9nrh.gachajava.domain.model.GachaBall;
 import com.seven9nrh.gachajava.domain.model.GachaMachine;
 import com.seven9nrh.gachajava.domain.model.Identifier;
 import javax.transaction.Transactional;
@@ -35,5 +36,10 @@ public class GachaServiceImpl implements GachaService {
   @Override
   public GachaMachine getGachaMachine(String id) {
     return gachaMachineManager.getGachaMachine(new Identifier(id));
+  }
+
+  @Override
+  public GachaBall pullGachaBall(String id) {
+    return gachaMachineManager.pullGachaBall(new Identifier(id));
   }
 }

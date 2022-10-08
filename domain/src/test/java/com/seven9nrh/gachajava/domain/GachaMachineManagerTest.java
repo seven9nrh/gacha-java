@@ -66,7 +66,13 @@ public class GachaMachineManagerTest {
     balls.add(new GachaItem(name, description, Rarity.N));
     balls.add(new GachaItem(name, description, Rarity.N));
     balls.add(new GachaItem(name, description, Rarity.N));
-    when(gachaBallMaker.makeBalls(5)).thenReturn(balls);
+    when(
+      gachaBallMaker.makeBalls(
+        5,
+        new GachaMachine(id, name, description, price, maxStock)
+      )
+    )
+      .thenReturn(balls);
 
     gachaMachineManager.refillGachaBalls(id, qty);
     // then

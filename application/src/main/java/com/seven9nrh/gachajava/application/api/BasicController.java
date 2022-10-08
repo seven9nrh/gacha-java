@@ -4,8 +4,10 @@ import com.seven9nrh.gachajava.application.api.body.GachaMachineBody;
 import com.seven9nrh.gachajava.application.api.body.ItemDataBody;
 import com.seven9nrh.gachajava.application.service.GachaService;
 import com.seven9nrh.gachajava.application.service.ItemDataService;
+import com.seven9nrh.gachajava.domain.model.GachaBall;
 import com.seven9nrh.gachajava.domain.model.GachaMachine;
 import com.seven9nrh.gachajava.domain.model.ItemData;
+import java.util.Set;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -61,11 +63,21 @@ public class BasicController {
     return itemDataService.getItemData(id);
   }
 
+  @GetMapping("/item")
+  public Set<ItemData> getItemList() {
+    return itemDataService.getItemDataList();
+  }
+
   @PutMapping(value = "/item/{id}")
   public ItemData modifyItemData(
     @PathVariable String id,
     @RequestBody ItemDataBody form
   ) {
     return itemDataService.modifyItemData(id, form);
+  }
+
+  @PutMapping("/gacha-machine/{id}/pull-gacha-ball")
+  public GachaBall pullGachaBall(@PathVariable(name = "id") String id) {
+    return gachaService.pullGachaBall(id);
   }
 }

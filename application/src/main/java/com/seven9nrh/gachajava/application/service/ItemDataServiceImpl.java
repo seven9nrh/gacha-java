@@ -5,6 +5,7 @@ import com.seven9nrh.gachajava.domain.ItemDataManager;
 import com.seven9nrh.gachajava.domain.model.Identifier;
 import com.seven9nrh.gachajava.domain.model.ItemData;
 import com.seven9nrh.gachajava.domain.model.Rarity;
+import java.util.Set;
 import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -45,5 +46,10 @@ public class ItemDataServiceImpl implements ItemDataService {
         Rarity.toRarity(form.getRarity())
       );
     return itemDataManager.updateItemData(itemData);
+  }
+
+  @Override
+  public Set<ItemData> getItemDataList() {
+    return itemDataManager.getAllItemData();
   }
 }

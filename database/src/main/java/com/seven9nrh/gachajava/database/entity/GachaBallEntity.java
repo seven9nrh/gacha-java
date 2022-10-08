@@ -5,9 +5,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "gacha_ball")
+@Data
 public class GachaBallEntity implements Serializable {
 
   @Id
@@ -22,28 +24,4 @@ public class GachaBallEntity implements Serializable {
 
   @Column(name = "gacha_item_id")
   private String gachaItemId;
-
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public Boolean getIsOpenned() {
-    return isOpenned;
-  }
-
-  public void setIsOpenned(Boolean isOpenned) {
-    this.isOpenned = isOpenned;
-  }
-
-  public String getGachaItemId() {
-    return gachaItemId;
-  }
-
-  public void setGachaItemId(String gachaItemId) {
-    this.gachaItemId = gachaItemId;
-  }
 }

@@ -1,5 +1,6 @@
 package com.seven9nrh.gachajava.domain;
 
+import com.seven9nrh.gachajava.domain.model.GachaBall;
 import com.seven9nrh.gachajava.domain.model.GachaMachine;
 import com.seven9nrh.gachajava.domain.model.Identifier;
 import com.seven9nrh.gachajava.repository.GachaMachineRepository;
@@ -35,7 +36,7 @@ public class GachaMachineManager {
     GachaMachine gachaMachine = repository.getGachaMachine(id);
 
     // add gacha ball to gacha machine.
-    gachaMachine.addGachaBall(gachaBallMaker.makeBalls(qty));
+    gachaMachine.addGachaBall(gachaBallMaker.makeBalls(qty, gachaMachine));
 
     // save gacha machine.
     saveGachaMachine(gachaMachine);
@@ -66,5 +67,11 @@ public class GachaMachineManager {
 
   public GachaMachine getGachaMachine(Identifier id) {
     return repository.getGachaMachine(id);
+  }
+
+  public GachaBall pullGachaBall(Identifier id) {
+    GachaMachine gachaMachine = repository.getGachaMachine(id);
+    GachaBall gachaBall = gachaBallMaker.pullGachaBall(gachaMachine);
+    return gachaBall;
   }
 }
