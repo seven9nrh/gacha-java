@@ -3,9 +3,9 @@ package com.seven9nrh.gachajava.domain;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-import com.seven9nrh.gachajava.domain.model.GachaBall;
-import com.seven9nrh.gachajava.domain.model.GachaMachine;
-import com.seven9nrh.gachajava.domain.model.ItemData;
+import com.seven9nrh.gachajava.domain.model.ClosedGachaBall;
+import com.seven9nrh.gachajava.domain.model.GachaPlayer;
+import com.seven9nrh.gachajava.domain.model.Item;
 import com.seven9nrh.gachajava.domain.model.Rarity;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,7 +23,7 @@ public class GachaBallMakerTest {
   GachaBallMaker gachaBallMaker;
 
   @Mock
-  ItemDataManager itemManager;
+  ItemManager itemManager;
 
   @BeforeEach
   public void setup() {
@@ -39,13 +39,13 @@ public class GachaBallMakerTest {
     int expected = 10;
 
     // when
-    var itemDataSet = new HashSet<ItemData>();
-    itemDataSet.add(new ItemData("item1", "description", Rarity.N));
-    when(itemManager.getAllItemData()).thenReturn(itemDataSet);
+    var itemSet = new HashSet<Item>();
+    itemSet.add(new Item("item1", "description", Rarity.N));
+    when(itemManager.getAllItem()).thenReturn(itemSet);
 
-    Set<GachaBall> actual = gachaBallMaker.makeBalls(
+    Set<ClosedGachaBall> actual = gachaBallMaker.makeBalls(
       count,
-      new GachaMachine("hoge", "name", 12, 11)
+      new GachaPlayer("hoge", "name", 11)
     );
 
     // then

@@ -3,31 +3,30 @@
 @host = {{hostname}}:{{port}}
 @contentType = application/json
 
-@baseURL = http://{{host}}/api/v1
+@baseURL = http://{{host}}/api/v1/management
 
 ###
 
-# @name postGachaMachine
-POST {{baseURL}}/gacha-machine HTTP/1.1
+# @name postGachaPlayer
+POST {{baseURL}}/gacha-player HTTP/1.1
 content-type: {{contentType}}
 
 {
-  "name": "Gacha Machine 1",
-  "description": "Gacha Machine 1 Description",
-  "price": "200",
-  "maxStock": "100"
+  "name": "Gacha Player 1",
+  "description": "Gacha Player 1 Description",
+  "wallet": "200"
 }
 
-@gachaMachineId = {{postGachaMachine.response.body.$.id.value}}
+@gachaPlayerId = {{postGachaPlayer.response.body.$.id.value}}
 
 ###
 
-PUT {{baseURL}}/gacha-machine/{{gachaMachineId}}/refill/10  HTTP/1.1
+PUT {{baseURL}}/gacha-player/{{gachaPlayerId}}/buy/10  HTTP/1.1
 content-type: {{contentType}}
 
 ###
 
-GET {{baseURL}}/gacha-machine/{{gachaMachineId}}  HTTP/1.1
+GET {{baseURL}}/gacha-player/{{gachaPlayerId}}  HTTP/1.1
 
 ###
 
@@ -36,8 +35,8 @@ POST {{baseURL}}/item HTTP/1.1
 content-type: {{contentType}}
 
 {
-  "name": "Gacha Machine 1",
-  "description": "Gacha Machine 1 Description",
+  "name": "Item 1",
+  "description": "Item 1 Description",
   "rarity": "R"
 }
 
@@ -57,15 +56,15 @@ PUT {{baseURL}}/item/{{itemId}} HTTP/1.1
 content-type: {{contentType}}
 
 {
-  "name": "Gacha Machine 2",
-  "description": "Gacha Machine 2 Description",
+  "name": "Item 2",
+  "description": "Item 2 Description",
   "rarity": "SR"
 }
 
 ###
 
 # @name pullGachaBall
-PUT {{baseURL}}/gacha-machine/{{gachaMachineId}}/pull-gacha-ball HTTP/1.1
+PUT {{baseURL}}/gacha-player/{{gachaPlayerId}}/pull-gacha-ball HTTP/1.1
 content-type: {{contentType}}
 
 @gachaBallId = {{pullGachaBall.response.body.$.id.value}}
@@ -76,4 +75,10 @@ content-type: {{contentType}}
 PUT {{baseURL}}/gacha-ball/{{gachaBallId}}/open HTTP/1.1
 content-type: {{contentType}}
 
-@gachaItemId = {{gachaBallOpen.response.body.$.id.value}}
+@gachaItemId = {{gachaBallOpen.response.body.$.gachaItemId.value}}
+
+###
+
+# @name getGachaItem
+GET {{baseURL}}/gacha-item/{{gachaItemId}} HTTP/1.1
+

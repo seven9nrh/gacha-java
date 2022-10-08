@@ -12,11 +12,11 @@ public class GachaBall implements Serializable {
 
   private Identifier gachaItemId;
 
-  private Identifier gachaMachineId;
+  private Identifier gachaPlayerId;
 
-  public GachaBall(Identifier gachaItemId, Identifier gachaMachineId) {
+  public GachaBall(Identifier gachaItemId, Identifier gachaPlayerId) {
     this.id = Identifier.generate();
     this.gachaItemId = gachaItemId;
-    this.gachaMachineId = gachaMachineId;
+    this.gachaPlayerId = gachaPlayerId;
   }
 }

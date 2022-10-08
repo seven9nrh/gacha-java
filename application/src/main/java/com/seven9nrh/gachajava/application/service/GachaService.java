@@ -1,18 +1,21 @@
 package com.seven9nrh.gachajava.application.service;
 
-import com.seven9nrh.gachajava.application.api.body.GachaMachineBody;
+import com.seven9nrh.gachajava.application.api.v1.body.GachaPlayerBody;
 import com.seven9nrh.gachajava.domain.model.ClosedGachaBall;
 import com.seven9nrh.gachajava.domain.model.GachaBall;
-import com.seven9nrh.gachajava.domain.model.GachaMachine;
+import com.seven9nrh.gachajava.domain.model.GachaItem;
+import com.seven9nrh.gachajava.domain.model.GachaPlayer;
 
 public interface GachaService {
-  GachaMachine newGachaMachine(GachaMachineBody form);
+  GachaPlayer newGachaPlayer(GachaPlayerBody form);
 
-  GachaMachine refillGachaBalls(String id, Integer qty);
+  GachaPlayer buyGachaBalls(String id, Integer qty);
 
-  GachaMachine getGachaMachine(String id);
+  GachaPlayer getGachaPlayer(String id);
 
   ClosedGachaBall pullGachaBall(String id);
 
   GachaBall openGachaBall(String id);
+
+  GachaItem getGachaItem(String id);
 }

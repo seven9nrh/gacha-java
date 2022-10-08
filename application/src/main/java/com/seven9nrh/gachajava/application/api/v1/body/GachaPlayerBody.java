@@ -1,10 +1,10 @@
-package com.seven9nrh.gachajava.application.api.body;
+package com.seven9nrh.gachajava.application.api.v1.body;
 
 import javax.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class GachaMachineBody {
+public class GachaPlayerBody {
 
   @NotNull
   private String name;
@@ -13,8 +13,5 @@ public class GachaMachineBody {
   private String description;
 
   @NotNull
-  private Integer price;
-
-  @NotNull
-  private Integer maxStock;
+  private Integer wallet;
 }

@@ -12,11 +12,11 @@ public class GachaItem implements Serializable {
   private String description;
   private Rarity rarity;
 
-  public GachaItem(ItemData itemData) {
+  public GachaItem(Item item) {
     this.id = Identifier.generate();
-    this.name = itemData.getName();
-    this.description = itemData.getDescription();
-    this.rarity = itemData.getRarity();
+    this.name = item.getName();
+    this.description = item.getDescription();
+    this.rarity = item.getRarity();
   }
 
   public GachaItem(String name, String description, Rarity rarity) {

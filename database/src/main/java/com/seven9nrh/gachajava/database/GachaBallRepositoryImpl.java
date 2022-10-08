@@ -24,7 +24,7 @@ public class GachaBallRepositoryImpl implements GachaBallRepository {
   private GachaBallEntity toGachaBallEntity(GachaBall gachaBall) {
     var entity = new GachaBallEntity();
     entity.setId(gachaBall.getId().getValue());
-    entity.setGachaMachineId(gachaBall.getGachaMachineId().getValue());
+    entity.setGachaPlayerId(gachaBall.getGachaPlayerId().getValue());
     entity.setGachaItemId(gachaBall.getGachaItemId().getValue());
     return entity;
   }
@@ -49,7 +49,7 @@ public class GachaBallRepositoryImpl implements GachaBallRepository {
     return new GachaBall(
       new Identifier(gachaBallEntity.getId()),
       new Identifier(gachaBallEntity.getGachaItemId()),
-      new Identifier(gachaBallEntity.getGachaMachineId())
+      new Identifier(gachaBallEntity.getGachaPlayerId())
     );
   }
 }

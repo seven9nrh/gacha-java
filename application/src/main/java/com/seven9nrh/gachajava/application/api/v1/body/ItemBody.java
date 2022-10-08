@@ -1,10 +1,10 @@
-package com.seven9nrh.gachajava.application.api.body;
+package com.seven9nrh.gachajava.application.api.v1.body;
 
 import javax.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class ItemDataBody {
+public class ItemBody {
 
   @NotNull
   private String name;

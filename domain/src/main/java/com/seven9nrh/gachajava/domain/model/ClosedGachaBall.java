@@ -10,5 +10,5 @@ public class ClosedGachaBall implements Serializable {
 
   private Identifier id;
 
-  private Identifier gachaMachineId;
+  private Identifier gachaPlayerId;
 }

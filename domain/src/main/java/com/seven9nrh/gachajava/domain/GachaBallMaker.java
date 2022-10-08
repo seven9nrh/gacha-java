@@ -3,9 +3,9 @@ package com.seven9nrh.gachajava.domain;
 import com.seven9nrh.gachajava.domain.model.ClosedGachaBall;
 import com.seven9nrh.gachajava.domain.model.GachaBall;
 import com.seven9nrh.gachajava.domain.model.GachaItem;
-import com.seven9nrh.gachajava.domain.model.GachaMachine;
+import com.seven9nrh.gachajava.domain.model.GachaPlayer;
 import com.seven9nrh.gachajava.domain.model.Identifier;
-import com.seven9nrh.gachajava.domain.model.ItemData;
+import com.seven9nrh.gachajava.domain.model.Item;
 import com.seven9nrh.gachajava.repository.GachaBallRepository;
 import com.seven9nrh.gachajava.repository.GachaItemRepository;
 import java.security.SecureRandom;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class GachaBallMaker {
 
-  private final ItemDataManager itemManager;
+  private final ItemManager itemManager;
 
   private final GachaItemRepository gachaItemRepository;
 
@@ -30,7 +30,7 @@ public class GachaBallMaker {
   private Random random;
 
   public GachaBallMaker(
-    ItemDataManager itemManager,
+    ItemManager itemManager,
     GachaItemRepository gachaItemRepository,
     GachaBallRepository gachaBallRepository
   ) {
@@ -45,50 +45,44 @@ public class GachaBallMaker {
     }
   }
 
-  public Set<ClosedGachaBall> makeBalls(int count, GachaMachine gachaMachine) {
-    // get item data from repository
-    var itemDataSet = itemManager.getAllItemData();
+  public Set<ClosedGachaBall> makeBalls(int count, GachaPlayer gachaPlayer) {
+    var itemSet = itemManager.getAllItem();
 
-    // when itemDataSet is empty, return empty set
-    if (itemDataSet.isEmpty()) {
+    if (itemSet.isEmpty()) {
       return Collections.emptySet();
     }
 
-    var itemDataList = new ArrayList<ItemData>();
+    var itemList = new ArrayList<Item>();
 
-    // count of rarity from itemDataSet
-    var rarityCountMap = itemDataSet
+    var rarityCountMap = itemSet
       .stream()
-      .map(i -> i.getRarity())
+      .map(Item::getRarity)
       .collect(
         Collectors.groupingBy(r -> r, LinkedHashMap::new, Collectors.counting())
       );
 
-    // make itemDataList
-    itemDataSet.forEach(
-      itemData -> {
-        var rarity = itemData.getRarity();
+    itemSet.forEach(
+      item -> {
+        var rarity = item.getRarity();
         var cnt = (rarity.getProbability() / rarityCountMap.get(rarity)) * 1000;
         for (int i = 0; i < cnt; i++) {
-          itemDataList.add(itemData);
+          itemList.add(item);
         }
       }
     );
 
-    // shuffle itemdata list
-    Collections.shuffle(itemDataList);
+    // shuffle item list
+    Collections.shuffle(itemList);
 
     Set<ClosedGachaBall> gachaBalls = new HashSet<>();
     for (int i = 0; i < count; i++) {
-      var randomItemData = itemDataList.get(
-        random.nextInt(itemDataList.size())
-      );
-      var gachaItem = new GachaItem(randomItemData);
+      var randomItem = itemList.get(random.nextInt(itemList.size()));
+      var gachaItem = new GachaItem(randomItem);
       gachaItemRepository.save(gachaItem);
 
       GachaBall gachaBall = new GachaBall(
         gachaItem.getId(),
-        gachaMachine.getId()
+        gachaPlayer.getId()
       );
       gachaBallRepository.save(gachaBall);
 
@@ -98,14 +92,11 @@ public class GachaBallMaker {
   }
 
   private ClosedGachaBall toClosed(GachaBall gachaBall) {
-    return new ClosedGachaBall(
-      gachaBall.getId(),
-      gachaBall.getGachaMachineId()
-    );
+    return new ClosedGachaBall(gachaBall.getId(), gachaBall.getGachaPlayerId());
   }
 
-  public ClosedGachaBall pullGachaBall(GachaMachine gachaMachine) {
-    Set<ClosedGachaBall> gachaBalls = gachaMachine.getGachaBalls();
+  public ClosedGachaBall pullGachaBall(GachaPlayer gachaPlayer) {
+    Set<ClosedGachaBall> gachaBalls = gachaPlayer.getGachaBalls();
     if (gachaBalls.isEmpty()) {
       return null;
     }
@@ -116,5 +107,9 @@ public class GachaBallMaker {
 
   public GachaBall getGachaBall(Identifier id) {
     return gachaBallRepository.findById(id);
+  }
+
+  public GachaItem getGachaItem(Identifier id) {
+    return gachaItemRepository.findById(id);
   }
 }

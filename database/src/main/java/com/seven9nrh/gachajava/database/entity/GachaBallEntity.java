@@ -16,8 +16,8 @@ public class GachaBallEntity implements Serializable {
   @Column(name = "id")
   private String id;
 
-  @Column(name = "gacha_machine_id")
-  private String gachaMachineId;
+  @Column(name = "gacha_player_id")
+  private String gachaPlayerId;
 
   @Column(name = "gacha_item_id")
   private String gachaItemId;

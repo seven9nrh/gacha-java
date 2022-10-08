@@ -32,9 +32,9 @@ public class GachaItemRepositoryImpl implements GachaItemRepository {
   }
 
   @Override
-  public GachaItem findById(String gachaItemId) {
+  public GachaItem findById(Identifier id) {
     return gachaItemDao
-      .findById(gachaItemId)
+      .findById(id.getValue())
       .map(this::toGachaItem)
       .orElse(null);
   }

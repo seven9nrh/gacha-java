@@ -4,10 +4,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.seven9nrh.gachajava.domain.model.GachaItem;
-import com.seven9nrh.gachajava.domain.model.GachaMachine;
+import com.seven9nrh.gachajava.domain.model.GachaPlayer;
 import com.seven9nrh.gachajava.domain.model.Identifier;
 import com.seven9nrh.gachajava.domain.model.Rarity;
-import com.seven9nrh.gachajava.repository.GachaMachineRepository;
+import com.seven9nrh.gachajava.repository.GachaPlayerRepository;
 import java.util.HashSet;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,10 +19,10 @@ import org.mockito.MockitoAnnotations;
 public class GachaMachineManagerTest {
 
   @InjectMocks
-  GachaMachineManager gachaMachineManager;
+  GachaPlayerManager gachaMachineManager;
 
   @Mock
-  GachaMachineRepository gachaMachineRepository;
+  GachaPlayerRepository gachaMachineRepository;
 
   @Mock
   GachaBallMaker gachaBallMaker;
@@ -38,7 +38,7 @@ public class GachaMachineManagerTest {
     Identifier id = new Identifier("id");
 
     // when
-    gachaMachineManager.deleteGachaMachine(id);
+    gachaMachineManager.deleteGachaPlayer(id);
 
     // then
     verify(gachaMachineRepository).delete(id);
@@ -50,15 +50,14 @@ public class GachaMachineManagerTest {
     Identifier id = new Identifier("id");
     int qty = 10;
 
-    int price = 100;
-    int maxStock = 50;
+    int wallet = 100;
 
     String name = "name";
     String description = "description";
 
     // when
-    when(gachaMachineRepository.getGachaMachine(id))
-      .thenReturn(new GachaMachine(id, name, description, price, maxStock));
+    when(gachaMachineRepository.findById(id))
+      .thenReturn(new GachaPlayer(id, name, description, wallet));
 
     Set balls = new HashSet<>();
     balls.add(new GachaItem(name, description, Rarity.N));
@@ -69,12 +68,12 @@ public class GachaMachineManagerTest {
     when(
       gachaBallMaker.makeBalls(
         5,
-        new GachaMachine(id, name, description, price, maxStock)
+        new GachaPlayer(id, name, description, wallet)
       )
     )
       .thenReturn(balls);
 
-    gachaMachineManager.refillGachaBalls(id, qty);
+    gachaMachineManager.buyGachaBalls(id, qty);
     // then
 
   }
@@ -82,16 +81,15 @@ public class GachaMachineManagerTest {
   @Test
   void testSaveGachaMachine() {
     // given
-    GachaMachine gachaMachine = new GachaMachine(
+    GachaPlayer gachaMachine = new GachaPlayer(
       Identifier.generate(),
       "name",
       "description",
-      1,
-      10
+      1
     );
 
     // when
-    gachaMachineManager.saveGachaMachine(gachaMachine);
+    gachaMachineManager.saveGachaPlayer(gachaMachine);
 
     // then
     verify(gachaMachineRepository).save(gachaMachine);
