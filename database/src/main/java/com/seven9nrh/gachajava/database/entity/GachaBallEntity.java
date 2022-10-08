@@ -19,9 +19,6 @@ public class GachaBallEntity implements Serializable {
   @Column(name = "gacha_machine_id")
   private String gachaMachineId;
 
-  @Column(name = "is_openned")
-  private Boolean isOpenned;
-
   @Column(name = "gacha_item_id")
   private String gachaItemId;
 }

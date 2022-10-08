@@ -1,16 +1,13 @@
 package com.seven9nrh.gachajava.database;
 
 import com.seven9nrh.gachajava.database.dao.GachaBallDao;
-import com.seven9nrh.gachajava.database.dao.GachaItemDao;
 import com.seven9nrh.gachajava.database.dao.GachaMachineDao;
 import com.seven9nrh.gachajava.database.entity.GachaBallEntity;
-import com.seven9nrh.gachajava.database.entity.GachaItemEntity;
 import com.seven9nrh.gachajava.database.entity.GachaMachineEntity;
+import com.seven9nrh.gachajava.domain.model.ClosedGachaBall;
 import com.seven9nrh.gachajava.domain.model.GachaBall;
-import com.seven9nrh.gachajava.domain.model.GachaItem;
 import com.seven9nrh.gachajava.domain.model.GachaMachine;
 import com.seven9nrh.gachajava.domain.model.Identifier;
-import com.seven9nrh.gachajava.domain.model.Rarity;
 import com.seven9nrh.gachajava.repository.GachaMachineRepository;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -24,16 +21,12 @@ public class GachaMachineRepositoryImpl implements GachaMachineRepository {
 
   private final GachaBallDao gachaBallDao;
 
-  private final GachaItemDao gachaItemDao;
-
   public GachaMachineRepositoryImpl(
     GachaMachineDao gachaMachineDao,
-    GachaBallDao gachaBallDao,
-    GachaItemDao gachaItemDao
+    GachaBallDao gachaBallDao
   ) {
     this.gachaMachineDao = gachaMachineDao;
     this.gachaBallDao = gachaBallDao;
-    this.gachaItemDao = gachaItemDao;
   }
 
   @Override
@@ -61,12 +54,12 @@ public class GachaMachineRepositoryImpl implements GachaMachineRepository {
     var condition = new GachaBallEntity();
     condition.setGachaMachineId(entity.getId());
     var gachaBallEntities = gachaBallDao.findAll(Example.of(condition));
-    Set<GachaBall> gachaBalls = gachaBallEntities
+    Set<ClosedGachaBall> gachaBalls = gachaBallEntities
       .stream()
       .map(
         gachaBallEntity -> {
-          return new GachaBall(
-            getGachaItem(gachaBallEntity),
+          return new ClosedGachaBall(
+            new Identifier(gachaBallEntity.getId()),
             gachaMachine.getId()
           );
         }
@@ -75,22 +68,6 @@ public class GachaMachineRepositoryImpl implements GachaMachineRepository {
 
     gachaMachine.addGachaBall(gachaBalls);
     return gachaMachine;
-  }
-
-  private GachaItem getGachaItem(GachaBallEntity gachaBall) {
-    GachaItemEntity entity = gachaItemDao
-      .findById(gachaBall.getGachaItemId())
-      .orElse(null);
-    if (entity == null) {
-      return null;
-    }
-
-    return new GachaItem(
-      new Identifier(entity.getId()),
-      entity.getName(),
-      entity.getDescription(),
-      Rarity.toRarity(entity.getRarity())
-    );
   }
 
   @Override

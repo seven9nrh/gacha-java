@@ -4,4 +4,6 @@ import com.seven9nrh.gachajava.domain.model.GachaItem;
 
 public interface GachaItemRepository {
   void save(GachaItem gachaItem);
+
+  GachaItem findById(String gachaItemId);
 }

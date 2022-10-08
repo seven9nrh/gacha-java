@@ -64,5 +64,16 @@ content-type: {{contentType}}
 
 ###
 
+# @name pullGachaBall
 PUT {{baseURL}}/gacha-machine/{{gachaMachineId}}/pull-gacha-ball HTTP/1.1
 content-type: {{contentType}}
+
+@gachaBallId = {{pullGachaBall.response.body.$.id.value}}
+
+###
+
+# @name gachaBallOpen
+PUT {{baseURL}}/gacha-ball/{{gachaBallId}}/open HTTP/1.1
+content-type: {{contentType}}
+
+@gachaItemId = {{gachaBallOpen.response.body.$.id.value}}

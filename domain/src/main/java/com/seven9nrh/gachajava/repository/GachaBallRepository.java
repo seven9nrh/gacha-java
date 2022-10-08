@@ -7,4 +7,6 @@ public interface GachaBallRepository {
   void save(GachaBall gachaBall);
 
   void deleteById(Identifier id);
+
+  GachaBall findById(Identifier id);
 }

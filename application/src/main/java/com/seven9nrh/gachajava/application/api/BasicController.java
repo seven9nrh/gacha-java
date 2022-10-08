@@ -4,6 +4,7 @@ import com.seven9nrh.gachajava.application.api.body.GachaMachineBody;
 import com.seven9nrh.gachajava.application.api.body.ItemDataBody;
 import com.seven9nrh.gachajava.application.service.GachaService;
 import com.seven9nrh.gachajava.application.service.ItemDataService;
+import com.seven9nrh.gachajava.domain.model.ClosedGachaBall;
 import com.seven9nrh.gachajava.domain.model.GachaBall;
 import com.seven9nrh.gachajava.domain.model.GachaMachine;
 import com.seven9nrh.gachajava.domain.model.ItemData;
@@ -77,7 +78,12 @@ public class BasicController {
   }
 
   @PutMapping("/gacha-machine/{id}/pull-gacha-ball")
-  public GachaBall pullGachaBall(@PathVariable(name = "id") String id) {
+  public ClosedGachaBall pullGachaBall(@PathVariable(name = "id") String id) {
     return gachaService.pullGachaBall(id);
+  }
+
+  @PutMapping("/gacha-ball/{id}/open")
+  public GachaBall openGachaBall(@PathVariable(name = "id") String id) {
+    return gachaService.openGachaBall(id);
   }
 }

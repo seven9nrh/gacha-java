@@ -1,8 +1,10 @@
 package com.seven9nrh.gachajava.domain;
 
+import com.seven9nrh.gachajava.domain.model.ClosedGachaBall;
 import com.seven9nrh.gachajava.domain.model.GachaBall;
 import com.seven9nrh.gachajava.domain.model.GachaItem;
 import com.seven9nrh.gachajava.domain.model.GachaMachine;
+import com.seven9nrh.gachajava.domain.model.Identifier;
 import com.seven9nrh.gachajava.domain.model.ItemData;
 import com.seven9nrh.gachajava.repository.GachaBallRepository;
 import com.seven9nrh.gachajava.repository.GachaItemRepository;
@@ -43,7 +45,7 @@ public class GachaBallMaker {
     }
   }
 
-  public Set<GachaBall> makeBalls(int count, GachaMachine gachaMachine) {
+  public Set<ClosedGachaBall> makeBalls(int count, GachaMachine gachaMachine) {
     // get item data from repository
     var itemDataSet = itemManager.getAllItemData();
 
@@ -76,7 +78,7 @@ public class GachaBallMaker {
     // shuffle itemdata list
     Collections.shuffle(itemDataList);
 
-    Set<GachaBall> gachaBalls = new HashSet<>();
+    Set<ClosedGachaBall> gachaBalls = new HashSet<>();
     for (int i = 0; i < count; i++) {
       var randomItemData = itemDataList.get(
         random.nextInt(itemDataList.size())
@@ -84,21 +86,35 @@ public class GachaBallMaker {
       var gachaItem = new GachaItem(randomItemData);
       gachaItemRepository.save(gachaItem);
 
-      GachaBall gachaBall = new GachaBall(gachaItem, gachaMachine.getId());
+      GachaBall gachaBall = new GachaBall(
+        gachaItem.getId(),
+        gachaMachine.getId()
+      );
       gachaBallRepository.save(gachaBall);
 
-      gachaBalls.add(gachaBall);
+      gachaBalls.add(toClosed(gachaBall));
     }
     return gachaBalls;
   }
 
-  public GachaBall pullGachaBall(GachaMachine gachaMachine) {
-    Set<GachaBall> gachaBalls = gachaMachine.getGachaBalls();
+  private ClosedGachaBall toClosed(GachaBall gachaBall) {
+    return new ClosedGachaBall(
+      gachaBall.getId(),
+      gachaBall.getGachaMachineId()
+    );
+  }
+
+  public ClosedGachaBall pullGachaBall(GachaMachine gachaMachine) {
+    Set<ClosedGachaBall> gachaBalls = gachaMachine.getGachaBalls();
     if (gachaBalls.isEmpty()) {
       return null;
     }
     var gachaBall = gachaBalls.iterator().next();
     gachaBalls.remove(gachaBall);
     return gachaBall;
+  }
+
+  public GachaBall getGachaBall(Identifier id) {
+    return gachaBallRepository.findById(id);
   }
 }

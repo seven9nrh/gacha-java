@@ -13,7 +13,7 @@ public class GachaMachine implements Serializable {
   private String description;
   private int price;
   private int maxStock;
-  private Set<GachaBall> gachaBalls;
+  private Set<ClosedGachaBall> gachaBalls;
 
   public GachaMachine(
     Identifier id,
@@ -44,7 +44,7 @@ public class GachaMachine implements Serializable {
     this.gachaBalls = Set.of();
   }
 
-  public void addGachaBall(Set<GachaBall> makeBalls) {
+  public void addGachaBall(Set<ClosedGachaBall> makeBalls) {
     this.gachaBalls.addAll(makeBalls);
   }
 }

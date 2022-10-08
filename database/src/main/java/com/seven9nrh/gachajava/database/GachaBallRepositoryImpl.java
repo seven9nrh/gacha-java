@@ -25,13 +25,31 @@ public class GachaBallRepositoryImpl implements GachaBallRepository {
     var entity = new GachaBallEntity();
     entity.setId(gachaBall.getId().getValue());
     entity.setGachaMachineId(gachaBall.getGachaMachineId().getValue());
-    entity.setIsOpenned(gachaBall.isOpenned());
-    entity.setGachaItemId(gachaBall.getItem().getId().getValue());
+    entity.setGachaItemId(gachaBall.getGachaItemId().getValue());
     return entity;
   }
 
   @Override
   public void deleteById(Identifier id) {
     gachaBallDao.deleteById(id.getValue());
+  }
+
+  @Override
+  public GachaBall findById(Identifier id) {
+    GachaBallEntity gachaBallEntity = gachaBallDao
+      .findById(id.getValue())
+      .orElse(null);
+    if (gachaBallEntity == null) {
+      return null;
+    }
+    return toGachaBall(gachaBallEntity);
+  }
+
+  private GachaBall toGachaBall(GachaBallEntity gachaBallEntity) {
+    return new GachaBall(
+      new Identifier(gachaBallEntity.getId()),
+      new Identifier(gachaBallEntity.getGachaItemId()),
+      new Identifier(gachaBallEntity.getGachaMachineId())
+    );
   }
 }
