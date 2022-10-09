@@ -1,5 +1,6 @@
 package com.seven9nrh.gachajava.application;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,6 +12,12 @@ import org.springframework.context.annotation.ComponentScan;
     "com.seven9nrh.gachajava.domain",
     "com.seven9nrh.gachajava.database",
   }
+)
+@OpenAPIDefinition(
+  info = @io.swagger.v3.oas.annotations.info.Info(
+    title = "GachaJava",
+    version = "1.0"
+  )
 )
 public class GachajavaApplication {
 
