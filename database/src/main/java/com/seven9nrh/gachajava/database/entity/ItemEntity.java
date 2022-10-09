@@ -1,16 +1,17 @@
 package com.seven9nrh.gachajava.database.entity;
 
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "item")
 @Data
-public class ItemEntity implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class ItemEntity extends AbstractEntity {
 
   @Id
   @Column(name = "id")
