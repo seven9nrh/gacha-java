@@ -8,20 +8,20 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "gacha_item")
+@Table(name = "item")
 @Data
-public class GachaItemEntity implements Serializable {
+public class ItemEntity implements Serializable {
 
   @Id
   @Column(name = "id")
   private String id;
 
-  @Column(name = "gacha_item_name")
+  @Column(name = "item_name")
   private String name;
 
-  @Column(name = "gacha_item_description")
+  @Column(name = "item_description")
   private String description;
 
-  @Column(name = "gacha_item_rarity")
+  @Column(name = "item_rarity")
   private String rarity;
 }

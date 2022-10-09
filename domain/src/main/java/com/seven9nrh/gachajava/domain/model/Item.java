@@ -6,7 +6,7 @@ import lombok.Value;
 
 @Value
 @AllArgsConstructor
-public class ItemData implements Serializable {
+public class Item implements Serializable {
 
   private Identifier id;
 
@@ -14,7 +14,7 @@ public class ItemData implements Serializable {
   private String description;
   private Rarity rarity;
 
-  public ItemData(String name, String description, Rarity rarity) {
+  public Item(String name, String description, Rarity rarity) {
     this.id = Identifier.generate();
     this.name = name;
     this.description = description;

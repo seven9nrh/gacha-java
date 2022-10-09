@@ -1,0 +1,39 @@
+@hostname = localhost
+@port = 8080
+@host = {{hostname}}:{{port}}
+@contentType = application/json
+
+@baseURL = http://{{host}}/api/v1/player
+
+@gachaPlayerId = 6f08137d-caa2-4703-938d-35ecaa6ba820
+
+###
+
+PUT {{baseURL}}/gacha-player/{{gachaPlayerId}}/buy/10  HTTP/1.1
+content-type: {{contentType}}
+
+###
+
+GET {{baseURL}}/gacha-player/{{gachaPlayerId}}  HTTP/1.1
+
+###
+
+# @name pullGachaBall
+PUT {{baseURL}}/gacha-player/{{gachaPlayerId}}/pull-gacha-ball HTTP/1.1
+content-type: {{contentType}}
+
+@gachaBallId = {{pullGachaBall.response.body.$.id.value}}
+
+###
+
+# @name gachaBallOpen
+PUT {{baseURL}}/gacha-ball/{{gachaBallId}}/open HTTP/1.1
+content-type: {{contentType}}
+
+@gachaItemId = {{gachaBallOpen.response.body.$.gachaItemId.value}}
+
+###
+
+# @name getGachaItem
+GET {{baseURL}}/gacha-item/{{gachaItemId}} HTTP/1.1
+

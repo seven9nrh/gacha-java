@@ -1,0 +1,84 @@
+@hostname = localhost
+@port = 8080
+@host = {{hostname}}:{{port}}
+@contentType = application/json
+
+@baseURL = http://{{host}}/api/v1/management
+
+###
+
+# @name postGachaPlayer
+POST {{baseURL}}/gacha-player HTTP/1.1
+content-type: {{contentType}}
+
+{
+  "name": "Gacha Player 1",
+  "description": "Gacha Player 1 Description",
+  "wallet": "200"
+}
+
+@gachaPlayerId = {{postGachaPlayer.response.body.$.id.value}}
+
+###
+
+PUT {{baseURL}}/gacha-player/{{gachaPlayerId}}/buy/10  HTTP/1.1
+content-type: {{contentType}}
+
+###
+
+GET {{baseURL}}/gacha-player/{{gachaPlayerId}}  HTTP/1.1
+
+###
+
+# @name postItem
+POST {{baseURL}}/item HTTP/1.1
+content-type: {{contentType}}
+
+{
+  "name": "Item 1",
+  "description": "Item 1 Description",
+  "rarity": "R"
+}
+
+@itemId = {{postItem.response.body.$.id.value}}
+
+###
+
+GET {{baseURL}}/item/{{itemId}}  HTTP/1.1
+
+###
+
+GET {{baseURL}}/item  HTTP/1.1
+
+###
+
+PUT {{baseURL}}/item/{{itemId}} HTTP/1.1
+content-type: {{contentType}}
+
+{
+  "name": "Item 2",
+  "description": "Item 2 Description",
+  "rarity": "SR"
+}
+
+###
+
+# @name pullGachaBall
+PUT {{baseURL}}/gacha-player/{{gachaPlayerId}}/pull-gacha-ball HTTP/1.1
+content-type: {{contentType}}
+
+@gachaBallId = {{pullGachaBall.response.body.$.id.value}}
+
+###
+
+# @name gachaBallOpen
+PUT {{baseURL}}/gacha-ball/{{gachaBallId}}/open HTTP/1.1
+content-type: {{contentType}}
+
+@gachaItemId = {{gachaBallOpen.response.body.$.gachaItemId.value}}
+
+###
+
+# @name getGachaItem
+GET {{baseURL}}/gacha-item/{{gachaItemId}} HTTP/1.1
+
