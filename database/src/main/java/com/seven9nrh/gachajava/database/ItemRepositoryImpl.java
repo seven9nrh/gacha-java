@@ -6,6 +6,7 @@ import com.seven9nrh.gachajava.domain.model.Identifier;
 import com.seven9nrh.gachajava.domain.model.Item;
 import com.seven9nrh.gachajava.domain.model.Rarity;
 import com.seven9nrh.gachajava.repository.ItemRepository;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Repository;
@@ -72,7 +73,15 @@ public class ItemRepositoryImpl implements ItemRepository {
 
   @Override
   public Item updateItem(Item item) {
-    var entity = toItemEntity(item);
+    Optional<ItemEntity> findById = itemDao.findById(item.getId().getValue());
+    if (findById.isEmpty()) {
+      throw new IdentifierNotFoundException(item.getId());
+    }
+    // update item
+    var entity = findById.get();
+    entity.setName(item.getName());
+    entity.setDescription(item.getDescription());
+    entity.setRarity(item.getRarity().getName());
     return toItem(itemDao.save(entity));
   }
 }

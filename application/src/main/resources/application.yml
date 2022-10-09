@@ -1,3 +1,5 @@
 spring.profiles.include:
   - database
 spring.sql.init.mode: always
+# swagger-ui custom path
+springdoc.swagger-ui.path: /api-docs.html
