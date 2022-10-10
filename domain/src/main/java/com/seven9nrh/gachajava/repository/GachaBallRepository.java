@@ -6,7 +6,7 @@ import com.seven9nrh.gachajava.domain.model.Identifier;
 public interface GachaBallRepository {
   void save(GachaBall gachaBall);
 
-  void deleteById(Identifier id);
-
   GachaBall findById(Identifier id);
+
+  void softDelete(Identifier id);
 }

@@ -5,6 +5,8 @@ import com.seven9nrh.gachajava.database.entity.GachaBallEntity;
 import com.seven9nrh.gachajava.domain.model.GachaBall;
 import com.seven9nrh.gachajava.domain.model.Identifier;
 import com.seven9nrh.gachajava.repository.GachaBallRepository;
+import java.time.LocalDateTime;
+import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -30,11 +32,6 @@ public class GachaBallRepositoryImpl implements GachaBallRepository {
   }
 
   @Override
-  public void deleteById(Identifier id) {
-    gachaBallDao.deleteById(id.getValue());
-  }
-
-  @Override
   public GachaBall findById(Identifier id) {
     GachaBallEntity gachaBallEntity = gachaBallDao
       .findById(id.getValue())
@@ -51,5 +48,17 @@ public class GachaBallRepositoryImpl implements GachaBallRepository {
       new Identifier(gachaBallEntity.getGachaItemId()),
       new Identifier(gachaBallEntity.getGachaPlayerId())
     );
+  }
+
+  @Override
+  public void softDelete(Identifier id) {
+    Optional<GachaBallEntity> opt = gachaBallDao.findById(id.getValue());
+    if (opt.isPresent()) {
+      var deleteGachaBall = opt.get();
+      deleteGachaBall.setDeletedBy("system");
+      deleteGachaBall.setDeletedAt(LocalDateTime.now());
+      deleteGachaBall.setIsDeleted(true);
+      gachaBallDao.save(deleteGachaBall);
+    }
   }
 }

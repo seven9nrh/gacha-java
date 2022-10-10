@@ -6,11 +6,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "gacha_ball")
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Where(clause = "is_deleted = false")
 public class GachaBallEntity extends AbstractEntity {
 
   @Id

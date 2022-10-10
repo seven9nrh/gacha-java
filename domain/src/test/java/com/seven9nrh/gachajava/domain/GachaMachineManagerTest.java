@@ -25,7 +25,7 @@ public class GachaMachineManagerTest {
   GachaPlayerRepository gachaMachineRepository;
 
   @Mock
-  GachaBallMaker gachaBallMaker;
+  GachaBallManager gachaBallManager;
 
   @BeforeEach
   public void setup() {
@@ -66,7 +66,7 @@ public class GachaMachineManagerTest {
     balls.add(new GachaItem(name, description, Rarity.N));
     balls.add(new GachaItem(name, description, Rarity.N));
     when(
-      gachaBallMaker.makeBalls(
+      gachaBallManager.makeBalls(
         5,
         new GachaPlayer(id, name, description, wallet)
       )

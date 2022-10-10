@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GachaBallMaker {
+public class GachaBallManager {
 
   private final ItemManager itemManager;
 
@@ -29,7 +29,7 @@ public class GachaBallMaker {
 
   private Random random;
 
-  public GachaBallMaker(
+  public GachaBallManager(
     ItemManager itemManager,
     GachaItemRepository gachaItemRepository,
     GachaBallRepository gachaBallRepository
@@ -102,6 +102,7 @@ public class GachaBallMaker {
     }
     var gachaBall = gachaBalls.iterator().next();
     gachaBalls.remove(gachaBall);
+    gachaBallRepository.softDelete(gachaBall.getId());
     return gachaBall;
   }
 
