@@ -7,6 +7,11 @@
 
 ###
 
+POST {{baseURL}}/auth/signin HTTP/1.1
+content-type: {{contentType}}
+
+###
+
 # @name postGachaPlayer
 POST {{baseURL}}/gacha-player HTTP/1.1
 content-type: {{contentType}}

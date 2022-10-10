@@ -34,9 +34,10 @@ public class GachaPlayerManager {
   public GachaPlayer buyGachaBalls(Identifier id, int qty) {
     GachaPlayer gachaPlayer = gachaPlayerRepository.findById(id);
 
-    gachaPlayer.addGachaBall(gachaBallMaker.makeBalls(qty, gachaPlayer));
-
-    saveGachaPlayer(gachaPlayer);
+    var balls = gachaBallMaker.makeBalls(qty, gachaPlayer);
+    if (!balls.isEmpty()) {
+      gachaPlayer.addGachaBall(balls);
+    }
 
     return gachaPlayer;
   }
