@@ -13,14 +13,14 @@ public class GachaPlayerManager {
 
   private final GachaPlayerRepository gachaPlayerRepository;
 
-  private final GachaBallMaker gachaBallMaker;
+  private final GachaBallManager gachaBallManager;
 
   public GachaPlayerManager(
     GachaPlayerRepository gachaPlayerRepository,
-    GachaBallMaker gachaBallMaker
+    GachaBallManager gachaBallManager
   ) {
     this.gachaPlayerRepository = gachaPlayerRepository;
-    this.gachaBallMaker = gachaBallMaker;
+    this.gachaBallManager = gachaBallManager;
   }
 
   public void saveGachaPlayer(GachaPlayer gachaPlayer) {
@@ -34,7 +34,7 @@ public class GachaPlayerManager {
   public GachaPlayer buyGachaBalls(Identifier id, int qty) {
     GachaPlayer gachaPlayer = gachaPlayerRepository.findById(id);
 
-    var balls = gachaBallMaker.makeBalls(qty, gachaPlayer);
+    var balls = gachaBallManager.makeBalls(qty, gachaPlayer);
     if (!balls.isEmpty()) {
       gachaPlayer.addGachaBall(balls);
     }
@@ -60,15 +60,15 @@ public class GachaPlayerManager {
 
   public ClosedGachaBall pullGachaBall(Identifier id) {
     GachaPlayer gachaPlayer = gachaPlayerRepository.findById(id);
-    ClosedGachaBall gachaBall = gachaBallMaker.pullGachaBall(gachaPlayer);
+    ClosedGachaBall gachaBall = gachaBallManager.pullGachaBall(gachaPlayer);
     return gachaBall;
   }
 
   public GachaBall openGachaBall(Identifier id) {
-    return gachaBallMaker.getGachaBall(id);
+    return gachaBallManager.getGachaBall(id);
   }
 
   public GachaItem getGachaItem(Identifier id) {
-    return gachaBallMaker.getGachaItem(id);
+    return gachaBallManager.getGachaItem(id);
   }
 }

@@ -16,11 +16,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-public class GachaBallMakerTest {
+public class GachaBallManagerTest {
 
   // sut: system under test
   @InjectMocks
-  GachaBallMaker gachaBallMaker;
+  GachaBallManager gachaBallMaker;
 
   @Mock
   ItemManager itemManager;
