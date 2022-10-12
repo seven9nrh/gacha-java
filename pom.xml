@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>com.seven9nrh.gachajava</groupId>
 	<artifactId>parent</artifactId>
-	<version>0.0.4</version>
+	<version>0.0.5</version>
 	<packaging>pom</packaging>
 	<description>Parent project of gacha-java</description>
 	<properties>

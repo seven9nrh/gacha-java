@@ -25,4 +25,7 @@ public class GachaItemEntity extends AbstractEntity {
 
   @Column(name = "gacha_item_rarity")
   private String rarity;
+
+  @Column(name = "gacha_player_id")
+  private String gachaPlayerId;
 }

@@ -18,6 +18,8 @@
         updated_by varchar(255),
         gacha_item_id varchar(255),
         gacha_player_id varchar(255),
+        is_ejected bit not null,
+        is_opened bit not null,
         primary key (id)
     ) engine=InnoDB;
 
@@ -31,6 +33,7 @@
         updated_at TIMESTAMP,
         updated_by varchar(255),
         gacha_item_description varchar(255),
+        gacha_player_id varchar(255),
         gacha_item_name varchar(255),
         gacha_item_rarity varchar(255),
         primary key (id)

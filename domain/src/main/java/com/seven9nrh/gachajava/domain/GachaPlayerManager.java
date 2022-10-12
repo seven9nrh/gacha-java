@@ -5,7 +5,10 @@ import com.seven9nrh.gachajava.domain.model.GachaBall;
 import com.seven9nrh.gachajava.domain.model.GachaItem;
 import com.seven9nrh.gachajava.domain.model.GachaPlayer;
 import com.seven9nrh.gachajava.domain.model.Identifier;
+import com.seven9nrh.gachajava.repository.GachaBallRepository;
+import com.seven9nrh.gachajava.repository.GachaItemRepository;
 import com.seven9nrh.gachajava.repository.GachaPlayerRepository;
+import java.util.Set;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,12 +18,20 @@ public class GachaPlayerManager {
 
   private final GachaBallManager gachaBallManager;
 
+  private final GachaBallRepository gachaBallRepository;
+
+  private final GachaItemRepository gachaItemRepository;
+
   public GachaPlayerManager(
     GachaPlayerRepository gachaPlayerRepository,
-    GachaBallManager gachaBallManager
+    GachaBallManager gachaBallManager,
+    GachaBallRepository gachaBallRepository,
+    GachaItemRepository gachaItemRepository
   ) {
     this.gachaPlayerRepository = gachaPlayerRepository;
     this.gachaBallManager = gachaBallManager;
+    this.gachaBallRepository = gachaBallRepository;
+    this.gachaItemRepository = gachaItemRepository;
   }
 
   public void saveGachaPlayer(GachaPlayer gachaPlayer) {
@@ -36,7 +47,7 @@ public class GachaPlayerManager {
 
     var balls = gachaBallManager.makeBalls(qty, gachaPlayer);
     if (!balls.isEmpty()) {
-      gachaPlayer.addGachaBall(balls);
+      gachaPlayer.addClosedGachaBall(balls);
     }
 
     return gachaPlayer;
@@ -58,17 +69,26 @@ public class GachaPlayerManager {
     return gachaPlayerRepository.findById(id);
   }
 
-  public ClosedGachaBall pullGachaBall(Identifier id) {
+  public ClosedGachaBall ejectGachaBall(Identifier id) {
     GachaPlayer gachaPlayer = gachaPlayerRepository.findById(id);
-    ClosedGachaBall gachaBall = gachaBallManager.pullGachaBall(gachaPlayer);
-    return gachaBall;
+    Set<ClosedGachaBall> gachaBalls = gachaPlayer.getClosedGachaBalls();
+    if (gachaBalls.isEmpty()) {
+      return null;
+    }
+    var gachaBall = gachaBalls.iterator().next();
+    gachaBalls.remove(gachaBall);
+    return gachaBallRepository.ejectGachaBall(gachaBall.getId());
   }
 
   public GachaBall openGachaBall(Identifier id) {
-    return gachaBallManager.getGachaBall(id);
+    GachaBall gachaBall = gachaBallRepository.findById(id);
+    if (gachaBall == null) {
+      return null;
+    }
+    return gachaBallManager.openGachaBall(gachaBall);
   }
 
   public GachaItem getGachaItem(Identifier id) {
-    return gachaBallManager.getGachaItem(id);
+    return gachaItemRepository.findById(id);
   }
 }

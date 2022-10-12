@@ -42,7 +42,7 @@ public class GachaServiceImpl implements GachaService {
 
   @Override
   public ClosedGachaBall pullGachaBall(String id) {
-    return gachaPlayerManager.pullGachaBall(new Identifier(id));
+    return gachaPlayerManager.ejectGachaBall(new Identifier(id));
   }
 
   @Override

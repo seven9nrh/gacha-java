@@ -24,4 +24,10 @@ public class GachaBallEntity extends AbstractEntity {
 
   @Column(name = "gacha_item_id")
   private String gachaItemId;
+
+  @Column(name = "is_opened", nullable = false)
+  private Boolean isOpened;
+
+  @Column(name = "is_ejected", nullable = false)
+  private Boolean isEjected;
 }
