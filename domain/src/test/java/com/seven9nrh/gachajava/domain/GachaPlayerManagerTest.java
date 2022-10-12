@@ -16,13 +16,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-public class GachaMachineManagerTest {
+public class GachaPlayerManagerTest {
 
   @InjectMocks
-  GachaPlayerManager gachaMachineManager;
+  GachaPlayerManager gachaPlayerManager;
 
   @Mock
-  GachaPlayerRepository gachaMachineRepository;
+  GachaPlayerRepository gachaPlayerRepository;
 
   @Mock
   GachaBallManager gachaBallManager;
@@ -38,10 +38,10 @@ public class GachaMachineManagerTest {
     Identifier id = new Identifier("id");
 
     // when
-    gachaMachineManager.deleteGachaPlayer(id);
+    gachaPlayerManager.deleteGachaPlayer(id);
 
     // then
-    verify(gachaMachineRepository).delete(id);
+    verify(gachaPlayerRepository).delete(id);
   }
 
   @Test
@@ -56,15 +56,15 @@ public class GachaMachineManagerTest {
     String description = "description";
 
     // when
-    when(gachaMachineRepository.findById(id))
+    when(gachaPlayerRepository.findById(id))
       .thenReturn(new GachaPlayer(id, name, description, wallet));
 
     Set balls = new HashSet<>();
-    balls.add(new GachaItem(name, description, Rarity.N));
-    balls.add(new GachaItem(name, description, Rarity.N));
-    balls.add(new GachaItem(name, description, Rarity.N));
-    balls.add(new GachaItem(name, description, Rarity.N));
-    balls.add(new GachaItem(name, description, Rarity.N));
+    balls.add(new GachaItem(name, description, Rarity.N, id));
+    balls.add(new GachaItem(name, description, Rarity.N, id));
+    balls.add(new GachaItem(name, description, Rarity.N, id));
+    balls.add(new GachaItem(name, description, Rarity.N, id));
+    balls.add(new GachaItem(name, description, Rarity.N, id));
     when(
       gachaBallManager.makeBalls(
         5,
@@ -73,7 +73,7 @@ public class GachaMachineManagerTest {
     )
       .thenReturn(balls);
 
-    gachaMachineManager.buyGachaBalls(id, qty);
+    gachaPlayerManager.buyGachaBalls(id, qty);
     // then
 
   }
@@ -89,9 +89,9 @@ public class GachaMachineManagerTest {
     );
 
     // when
-    gachaMachineManager.saveGachaPlayer(gachaMachine);
+    gachaPlayerManager.saveGachaPlayer(gachaMachine);
 
     // then
-    verify(gachaMachineRepository).save(gachaMachine);
+    verify(gachaPlayerRepository).save(gachaMachine);
   }
 }

@@ -4,7 +4,6 @@ import com.seven9nrh.gachajava.domain.model.ClosedGachaBall;
 import com.seven9nrh.gachajava.domain.model.GachaBall;
 import com.seven9nrh.gachajava.domain.model.GachaItem;
 import com.seven9nrh.gachajava.domain.model.GachaPlayer;
-import com.seven9nrh.gachajava.domain.model.Identifier;
 import com.seven9nrh.gachajava.domain.model.Item;
 import com.seven9nrh.gachajava.repository.GachaBallRepository;
 import com.seven9nrh.gachajava.repository.GachaItemRepository;
@@ -77,7 +76,7 @@ public class GachaBallManager {
     Set<ClosedGachaBall> gachaBalls = new HashSet<>();
     for (int i = 0; i < count; i++) {
       var randomItem = itemList.get(random.nextInt(itemList.size()));
-      var gachaItem = new GachaItem(randomItem);
+      var gachaItem = new GachaItem(randomItem, gachaPlayer.getId());
       gachaItemRepository.save(gachaItem);
 
       GachaBall gachaBall = new GachaBall(
@@ -95,22 +94,7 @@ public class GachaBallManager {
     return new ClosedGachaBall(gachaBall.getId(), gachaBall.getGachaPlayerId());
   }
 
-  public ClosedGachaBall pullGachaBall(GachaPlayer gachaPlayer) {
-    Set<ClosedGachaBall> gachaBalls = gachaPlayer.getGachaBalls();
-    if (gachaBalls.isEmpty()) {
-      return null;
-    }
-    var gachaBall = gachaBalls.iterator().next();
-    gachaBalls.remove(gachaBall);
-    gachaBallRepository.softDelete(gachaBall.getId());
-    return gachaBall;
-  }
-
-  public GachaBall getGachaBall(Identifier id) {
-    return gachaBallRepository.findById(id);
-  }
-
-  public GachaItem getGachaItem(Identifier id) {
-    return gachaItemRepository.findById(id);
+  public GachaBall openGachaBall(GachaBall gachaBall) {
+    return gachaBallRepository.openGachaBall(gachaBall.getId());
   }
 }

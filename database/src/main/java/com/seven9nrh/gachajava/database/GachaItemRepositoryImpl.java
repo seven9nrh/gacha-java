@@ -28,6 +28,7 @@ public class GachaItemRepositoryImpl implements GachaItemRepository {
     entity.setName(gachaItem.getName());
     entity.setDescription(gachaItem.getDescription());
     entity.setRarity(gachaItem.getRarity().getName());
+    entity.setGachaPlayerId(gachaItem.getGachaPlayerId().getValue());
     return entity;
   }
 
@@ -44,7 +45,8 @@ public class GachaItemRepositoryImpl implements GachaItemRepository {
       new Identifier(gachaItemEntity.getId()),
       gachaItemEntity.getName(),
       gachaItemEntity.getDescription(),
-      Rarity.toRarity(gachaItemEntity.getRarity())
+      Rarity.toRarity(gachaItemEntity.getRarity()),
+      new Identifier(gachaItemEntity.getGachaPlayerId())
     );
   }
 }

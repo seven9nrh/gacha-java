@@ -12,7 +12,8 @@ public class GachaPlayer implements Serializable {
   private String name;
   private String description;
   private int wallet;
-  private Set<ClosedGachaBall> gachaBalls;
+  private Set<ClosedGachaBall> closedGachaBalls;
+  private Set<GachaBall> gachaBalls;
   private Set<GachaItem> gachaItems;
 
   public GachaPlayer(
@@ -25,6 +26,7 @@ public class GachaPlayer implements Serializable {
     this.name = name;
     this.description = description;
     this.wallet = wallet;
+    this.closedGachaBalls = new HashSet<>();
     this.gachaBalls = new HashSet<>();
     this.gachaItems = new HashSet<>();
   }
@@ -34,11 +36,16 @@ public class GachaPlayer implements Serializable {
     this.name = name;
     this.description = description;
     this.wallet = wallet;
+    this.closedGachaBalls = Set.of();
     this.gachaBalls = Set.of();
     this.gachaItems = Set.of();
   }
 
-  public void addGachaBall(Set<ClosedGachaBall> makeBalls) {
+  public void addClosedGachaBall(Set<ClosedGachaBall> makeBalls) {
+    this.closedGachaBalls.addAll(makeBalls);
+  }
+
+  public void addGachaBall(Set<GachaBall> makeBalls) {
     this.gachaBalls.addAll(makeBalls);
   }
 
