@@ -1,0 +1,13 @@
+<!DOCTYPE html>>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>fragments</title>
+  </head>
+
+  <body th:fragment="stylesheets">
+    <th:block>
+      <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+    </th:block>
+  </body>
+</html>

@@ -1,15 +1,14 @@
-package com.seven9nrh.gachajava.application.service.impl;
+package com.seven9nrh.gachajava.service.impl;
 
-import com.seven9nrh.gachajava.application.api.v1.body.GachaPlayerBody;
-import com.seven9nrh.gachajava.application.service.GachaService;
 import com.seven9nrh.gachajava.domain.GachaPlayerManager;
 import com.seven9nrh.gachajava.domain.model.ClosedGachaBall;
 import com.seven9nrh.gachajava.domain.model.GachaBall;
 import com.seven9nrh.gachajava.domain.model.GachaItem;
 import com.seven9nrh.gachajava.domain.model.GachaPlayer;
 import com.seven9nrh.gachajava.domain.model.Identifier;
-import javax.transaction.Transactional;
+import com.seven9nrh.gachajava.service.GachaService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @Service
@@ -22,12 +21,12 @@ public class GachaServiceImpl implements GachaService {
   }
 
   @Override
-  public GachaPlayer newGachaPlayer(GachaPlayerBody form) {
-    return gachaPlayerManager.newGachaPlayer(
-      form.getName(),
-      form.getDescription(),
-      form.getWallet()
-    );
+  public GachaPlayer newGachaPlayer(
+    String name,
+    String description,
+    int wallet
+  ) {
+    return gachaPlayerManager.newGachaPlayer(name, description, wallet);
   }
 
   @Override

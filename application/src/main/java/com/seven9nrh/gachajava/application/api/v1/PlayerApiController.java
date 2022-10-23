@@ -1,14 +1,11 @@
 package com.seven9nrh.gachajava.application.api.v1;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.seven9nrh.gachajava.application.service.GachaService;
+import com.seven9nrh.gachajava.common.TokenGeneretor;
 import com.seven9nrh.gachajava.domain.model.ClosedGachaBall;
 import com.seven9nrh.gachajava.domain.model.GachaBall;
 import com.seven9nrh.gachajava.domain.model.GachaItem;
 import com.seven9nrh.gachajava.domain.model.GachaPlayer;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import com.seven9nrh.gachajava.service.GachaService;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,13 +27,8 @@ public class PlayerApiController {
 
   @PostMapping("/auth/signin")
   public ResponseEntity<Void> signin() {
-    String token = JWT
-      .create()
-      .withSubject("player")
-      .withExpiresAt(LocalDateTime.now().plusDays(1).toInstant(ZoneOffset.UTC))
-      .sign(Algorithm.HMAC256("secret"));
     ResponseCookie jwtCookie = ResponseCookie
-      .from("jwt", token)
+      .from("jwt", TokenGeneretor.generate("player"))
       .path("/api/v1/player")
       .maxAge(24 * 60 * 60)
       .httpOnly(true)

@@ -9,15 +9,25 @@
 	</parent>
 	<groupId>com.seven9nrh.gachajava</groupId>
 	<artifactId>parent</artifactId>
-	<version>0.0.5</version>
+	<version>0.0.6</version>
 	<packaging>pom</packaging>
 	<description>Parent project of gacha-java</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
 	<modules>
+		<module>common</module>
 		<module>domain</module>
 		<module>database</module>
 		<module>application</module>
+		<module>site</module>
 	</modules>
+	<dependencies>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.24</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
 </project>

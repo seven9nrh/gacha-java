@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sign In</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link th:include="fragments :: stylesheets" />
+  </head>
+  <body>
+    <form
+      th:action="@{/site/manager/gacha-player}"
+      method="post"
+      th:object="${gachaPlayerForm}"
+    >
+      <input type="hidden" class="form-control" th:field="*{gachaPlayerId}" />
+
+      <div th:if="${#fields.hasErrors('global')}">
+        <div th:each="error : ${#fields.errors('global')}">
+          <p th:text="${error}" class="text-danger"></p>
+        </div>
+      </div>
+      <div class="row m-5 container-sm">
+        <h3>Gacha Player</h3>
+
+        <div class="col-sm-3">
+          <label for="playerName">Player Name</label>
+        </div>
+        <div class="col-sm-9">
+          <input
+            type="text"
+            class="form-control"
+            th:field="*{playerName}"
+            placeholder="Enter player name"
+          />
+          <ul>
+            <li
+              th:each="err : ${#fields.errors('playerName')}"
+              th:text="${err}"
+              class="text-danger"
+            />
+          </ul>
+        </div>
+
+        <div class="col-sm-3">
+          <label for="playerDescription">Player Description</label>
+        </div>
+        <div class="col-sm-9">
+          <input
+            type="text"
+            class="form-control"
+            th:field="*{playerDescription}"
+            placeholder="Enter player description"
+          />
+          <ul>
+            <li
+              th:each="err : ${#fields.errors('playerDescription')}"
+              th:text="${err}"
+              class="text-danger"
+            />
+          </ul>
+        </div>
+
+        <div class="col-sm-3">
+          <label for="playerWallet">Player wallet</label>
+        </div>
+        <div class="col-sm-9">
+          <input
+            type="text"
+            class="form-control"
+            th:field="*{playerWallet}"
+            placeholder="Enter player wallet"
+          />
+          <ul>
+            <li
+              th:each="err : ${#fields.errors('playerWallet')}"
+              th:text="${err}"
+              class="text-danger"
+            />
+          </ul>
+        </div>
+
+        <button
+          type="submit"
+          th:formaction="@{/site/manager/gacha-player/new}"
+          class="btn btn-primary"
+        >
+          New
+        </button>
+      </div>
+
+      <div class="row m-5 container-sm" th:if="${gachaPlayer}">
+        <dl class="row m-5">
+          <dt class="col-sm-3">id</dt>
+          <dd class="col-sm-9" th:text="${gachaPlayer.id.value}"></dd>
+
+          <dt class="col-sm-3">name</dt>
+          <dd class="col-sm-9" th:text="${gachaPlayer.name}"></dd>
+
+          <dt class="col-sm-3">description</dt>
+          <dd class="col-sm-9" th:text="${gachaPlayer.description}"></dd>
+
+          <dt class="col-sm-3">wallet</dt>
+          <dd class="col-sm-9" th:text="${gachaPlayer.wallet}"></dd>
+        </dl>
+
+        <button
+          type="submit"
+          th:formaction="@{/site/manager/gacha-player/buy}"
+          class="btn btn-primary"
+        >
+          buy
+        </button>
+
+        <h3>Ball</h3>
+        <th:block
+          th:each="closeGachaBall, closeGachaBallStat : ${gachaPlayer.closedGachaBalls}"
+        >
+          <dl class="row m-5">
+            <dt class="col-sm-3">No.</dt>
+            <dd class="col-sm-9" th:text="${closeGachaBallStat.count}"></dd>
+
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9">Closed</dd>
+
+            <dt class="col-sm-3">id</dt>
+            <dd class="col-sm-9" th:text="${closeGachaBall.id.value}"></dd>
+
+            <dt class="col-sm-3">gachaPlayerId</dt>
+            <dd
+              class="col-sm-9"
+              th:text="${closeGachaBall.gachaPlayerId.value}"
+            ></dd>
+
+            <input
+              type="hidden"
+              class="form-control"
+              th:name="gachaBallId"
+              th:value="${closeGachaBall.id.value}"
+            />
+          </dl>
+          <button
+            th:if="${closeGachaBallStat.last}"
+            type="submit"
+            class="btn btn-secondary"
+            th:formaction="@{/site/manager/gacha-player/pull/}"
+          >
+            Pull
+          </button>
+        </th:block>
+        <h3>Ball</h3>
+        <th:block
+          th:each="gachaBall, gachaBallState : ${gachaPlayer.gachaBalls}"
+        >
+          <dl class="row m-5">
+            <dt class="col-sm-3">No.</dt>
+            <dd class="col-sm-9" th:text="${gachaBallState.count}"></dd>
+
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9">Opened</dd>
+
+            <dt class="col-sm-3">id</dt>
+            <dd class="col-sm-9" th:text="${gachaBall.id.value}"></dd>
+
+            <dt class="col-sm-3">gachaItemId</dt>
+            <dd class="col-sm-9" th:text="${gachaBall.gachaItemId.value}"></dd>
+
+            <dt class="col-sm-3">gachaPlayerId</dt>
+            <dd
+              class="col-sm-9"
+              th:text="${gachaBall.gachaPlayerId.value}"
+            ></dd>
+            <button
+              type="submit"
+              class="btn btn-info"
+              th:formaction="@{'/site/manager/gacha-player/open/' + ${gachaBall.id.value}}"
+            >
+              Open
+            </button>
+          </dl>
+        </th:block>
+        <h3>Item</h3>
+        <th:block
+          th:each="gachaItem, gachaItemState : ${gachaPlayer.gachaItems}"
+        >
+          <dl class="row m-5">
+            <dt class="col-sm-3">No.</dt>
+            <dd class="col-sm-9" th:text="${gachaItemState.count}"></dd>
+
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9">Item</dd>
+
+            <dt class="col-sm-3">id</dt>
+            <dd class="col-sm-9" th:text="${gachaItem.id.value}"></dd>
+
+            <dt class="col-sm-3">name</dt>
+            <dd class="col-sm-9" th:text="${gachaItem.name}"></dd>
+
+            <dt class="col-sm-3">description</dt>
+            <dd class="col-sm-9" th:text="${gachaItem.description}"></dd>
+
+            <dt class="col-sm-3">rarity</dt>
+            <dd class="col-sm-9" th:text="${gachaItem.rarity.name}"></dd>
+
+            <dt class="col-sm-3">gachaPlayerId</dt>
+            <dd
+              class="col-sm-9"
+              th:text="${gachaItem.gachaPlayerId.value}"
+            ></dd>
+          </dl>
+        </th:block>
+      </div>
+    </form>
+  </body>
+</html>

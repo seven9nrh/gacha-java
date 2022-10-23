@@ -9,8 +9,10 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(
   basePackages = {
     "com.seven9nrh.gachajava.application",
+    "com.seven9nrh.gachajava.service",
     "com.seven9nrh.gachajava.domain",
     "com.seven9nrh.gachajava.database",
+    "com.seven9nrh.gachajava.site",
   }
 )
 @OpenAPIDefinition(
