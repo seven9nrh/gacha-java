@@ -1,18 +1,17 @@
 package com.seven9nrh.gachajava.application.api.v1;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.seven9nrh.gachajava.application.api.v1.body.GachaPlayerBody;
 import com.seven9nrh.gachajava.application.api.v1.body.ItemBody;
-import com.seven9nrh.gachajava.application.service.GachaService;
-import com.seven9nrh.gachajava.application.service.ItemService;
+import com.seven9nrh.gachajava.common.TokenGeneretor;
 import com.seven9nrh.gachajava.domain.model.ClosedGachaBall;
 import com.seven9nrh.gachajava.domain.model.GachaBall;
 import com.seven9nrh.gachajava.domain.model.GachaItem;
 import com.seven9nrh.gachajava.domain.model.GachaPlayer;
+import com.seven9nrh.gachajava.domain.model.Identifier;
 import com.seven9nrh.gachajava.domain.model.Item;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import com.seven9nrh.gachajava.domain.model.Rarity;
+import com.seven9nrh.gachajava.service.GachaService;
+import com.seven9nrh.gachajava.service.ItemService;
 import java.util.Set;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -43,13 +42,8 @@ public class ManagementApiController {
 
   @PostMapping("/auth/signin")
   public ResponseEntity<Void> signin() {
-    String token = JWT
-      .create()
-      .withSubject("manager")
-      .withExpiresAt(LocalDateTime.now().plusDays(1).toInstant(ZoneOffset.UTC))
-      .sign(Algorithm.HMAC256("secret"));
     ResponseCookie jwtCookie = ResponseCookie
-      .from("jwt", token)
+      .from("jwt", TokenGeneretor.generate("manager"))
       .path("/api/v1/management")
       .maxAge(24 * 60 * 60)
       .httpOnly(true)
@@ -64,7 +58,11 @@ public class ManagementApiController {
   public GachaPlayer newGachaPlayer(
     @Validated @RequestBody GachaPlayerBody form
   ) {
-    return gachaService.newGachaPlayer(form);
+    return gachaService.newGachaPlayer(
+      form.getName(),
+      form.getDescription(),
+      form.getWallet()
+    );
   }
 
   @PutMapping("/gacha-player/{id}/buy/{qty}")
@@ -82,7 +80,12 @@ public class ManagementApiController {
 
   @PostMapping("/item")
   public Item newItem(@Validated @RequestBody ItemBody form) {
-    return itemService.newItem(form);
+    Item item = new Item(
+      form.getName(),
+      form.getDescription(),
+      Rarity.toRarity(form.getRarity())
+    );
+    return itemService.newItem(item);
   }
 
   @GetMapping("/item/{id}")
@@ -97,7 +100,13 @@ public class ManagementApiController {
 
   @PutMapping(value = "/item/{id}")
   public Item modifyItem(@PathVariable String id, @RequestBody ItemBody form) {
-    return itemService.modifyItem(id, form);
+    var item = new Item(
+      new Identifier(id),
+      form.getName(),
+      form.getDescription(),
+      Rarity.toRarity(form.getRarity())
+    );
+    return itemService.modifyItem(item);
   }
 
   @PutMapping("/gacha-player/{id}/pull-gacha-ball")

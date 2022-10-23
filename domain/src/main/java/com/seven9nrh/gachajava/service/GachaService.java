@@ -1,13 +1,12 @@
-package com.seven9nrh.gachajava.application.service;
+package com.seven9nrh.gachajava.service;
 
-import com.seven9nrh.gachajava.application.api.v1.body.GachaPlayerBody;
 import com.seven9nrh.gachajava.domain.model.ClosedGachaBall;
 import com.seven9nrh.gachajava.domain.model.GachaBall;
 import com.seven9nrh.gachajava.domain.model.GachaItem;
 import com.seven9nrh.gachajava.domain.model.GachaPlayer;
 
 public interface GachaService {
-  GachaPlayer newGachaPlayer(GachaPlayerBody form);
+  GachaPlayer newGachaPlayer(String name, String description, int wallet);
 
   GachaPlayer buyGachaBalls(String id, Integer qty);
 

@@ -33,7 +33,7 @@
 		<dependency>
 			<groupId>com.seven9nrh.gachajava</groupId>
 			<artifactId>domain</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
@@ -47,12 +47,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.18.24</version>
-			<scope>provided</scope>
-		</dependency>
 	</dependencies>
 
 	<build>
